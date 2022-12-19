@@ -6,6 +6,7 @@ from datetime import datetime
 
 # Create your views here.
 def register(request):
+    enc_data = None
     if request.method == 'POST':
         sname = request.POST['name']
         sroll = request.POST['roll']
@@ -20,8 +21,10 @@ def register(request):
         else:
             stud = Student.objects.create(name=sname, roll=sroll, birth_date=sbirth, shift=shift, session=f"{session_1st} to {session_2nd}")
             stud.save()
+            s = Signer()
+            enc_data = s.sign_object({sroll: sbirth})
             messages.success(request, "Student added in database")
-    return render(request, "register.html")
+    return render(request, "register.html", {'data': enc_data})
 
 def login(request):
     if request.method == 'POST':
@@ -54,4 +57,4 @@ def dashboard(request, pk):
     roll_birth = s.unsign_object(pk)
     roll, birth = tuple(roll_birth.items())[0]
     
-    return render(request, 'dashboard.html',{'student':{'name':birth, "roll":roll}})
+    return render(request, 'dashboard.html',{'student':{'name':birth, "roll":roll}, "qr_data":pk})

@@ -1,3 +1,4 @@
+{% load qr_code %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,5 +10,6 @@
 <body>
     <h4>Name: {{ student.name }}</h4>
     <h5>Roll: {{ student.roll }}</h5>
+    {% qr_from_text qr_data size=12 image_format="png" error_correction="L" border=2 %}
 </body>
 </html>

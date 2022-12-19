@@ -23,7 +23,7 @@
     <script>
         function onScanSuccess(decodedText, decodedResult) {
             
-            window.location =  decodedText
+            window.location =  "dashboard/user_data".replace("user_data", decodedText)
         }
 
         function onScanFailure(error) {

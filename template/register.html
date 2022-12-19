@@ -26,5 +26,5 @@
     <button type="submit">Search</button>
 </form>
 {% if data %}
-{% qr_from_text "Hello World!" size="m" image_format="png" error_correction="L" border=6 %}
+{% qr_from_text data size=12 image_format="png" error_correction="L" border=2 %}
 {% endif %}

@@ -14,3 +14,5 @@ class Student(models.Model):
     shift = models.CharField(max_length=4, choices=shift_choose)
     session = models.CharField(max_length=15)
     
+    def __str__(self) -> str:
+        return str(self.roll)
