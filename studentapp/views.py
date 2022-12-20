@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
+from django.contrib.admin.views.decorators import staff_member_required
 from django.core.signing import Signer
 from django.contrib import messages
 from .models import Student
@@ -58,3 +59,30 @@ def dashboard(request, pk):
     roll, birth = tuple(roll_birth.items())[0]
     
     return render(request, 'dashboard.html',{'student':{'name':birth, "roll":roll}, "qr_data":pk})
+
+@staff_member_required
+def all_student(request):
+    all_s = Student.objects.all()
+    return render(request, "all_student.html", {'student_list': all_s})
+
+@staff_member_required
+def student_details(request, pk):
+    try:
+        student = Student.objects.get(pk=pk)
+        session1, session2 = student.session.split(" to ")
+        if request.method == 'POST':
+            update_name = request.POST.get('name')
+            update_birth_date = request.POST.get("birth_date")
+            update_session1 = request.POST.get("session1")
+            update_session2 = request.POST.get("session2")
+            u_session = f"{update_session1} to {update_session2}"
+            student.name = update_name
+            student.birth_date = update_birth_date
+            student.session = u_session
+            student.save()
+            return redirect("all-student")
+        else:
+            messages.error(request ,"Can't update details")
+    except Exception as a:
+        print(a)
+    return render(request, 'student_details.html', {'student': student, 'student_session1':session1, 'student_session2': session2})

@@ -25,6 +25,13 @@
     <br>
     <button type="submit">Search</button>
 </form>
+{% if messages %}
+    {% for message in messages %}
+        <h5>{{ message }}</h5>
+    {% endfor %}
+{% endif %}
+
 {% if data %}
-{% qr_from_text data size=12 image_format="png" error_correction="L" border=2 %}
+    <p>Save this qr_code. You have needed it for login</p>
+    {% qr_from_text data size=12 image_format="png" error_correction="L" border=2 %}
 {% endif %}
