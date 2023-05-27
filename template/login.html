@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <style>
+        #parent > *{
+            display: block;
+            margin: 30px 0px;
+        }
+    </style>
 </head>
 <body>
     <div style="width: 500px" id="reader"></div>
@@ -38,5 +44,12 @@
         /* verbose= */ false);
         html5QrcodeScanner.render(onScanSuccess, onScanFailure);
     </script>
+
+    <div id="parent">
+        <a href="{% url 'register' %}">Register as a student</a>
+        {% if user.is_superuser %}
+        <a href="{% url 'all-student' %}"><button>All Student</button></a>
+        {% endif %}
+    </div>
 </body>
 </html>
